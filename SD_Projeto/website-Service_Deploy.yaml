@@ -17,22 +17,24 @@ spec:
     spec:
       containers:
       - name: website
-        image: 
+        image: itschaboy/sd-projeto:websitev2
         ports:
         - containerPort: 80
+      imagePullSecrets:
+      - name: acr-secret
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: website-nodeport
+  name: website-service
   namespace: 
   labels:
     app: website
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
-  - port: 80
-    nodePort: 30001
+  - port: 8080
     protocol: TCP
+    targetPort: 80
   selector:
     app: website
